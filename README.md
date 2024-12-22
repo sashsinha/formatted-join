@@ -60,9 +60,9 @@ Joins items using a comma and localized* “and” before the last item.
 'Spring and Summer'
 >>> formatted_join_conjunction(['One', 'Two', 'Three'])
 'One, Two, and Three'
->>> formatted_join_conjunction(['Motorcycle', 'Bus', 'Car', language='en'])
+>>> formatted_join_conjunction(['Motorcycle', 'Bus', 'Car'], language='en')
 'Motorcycle, Bus, and Car'
->>> formatted_join_conjunction(['Motorcycle', 'Bus', 'Car', language='de'])
+>>> formatted_join_conjunction(['Motorcycle', 'Bus', 'Car'], language='de')
 'Motorcycle, Bus und Car'
 ```
 
@@ -76,9 +76,9 @@ Joins items using a comma and localized* “or” before the last item.
 'Monday or Tuesday'
 >>> formatted_join_disjunction(['X', 'Y', 'Z'])
 'X, Y, or Z'
->>> formatted_join_disjunction(['Motorcycle', 'Bus', 'Car', language='en'])
+>>> formatted_join_disjunction(['Motorcycle', 'Bus', 'Car'], language='en')
 'Motorcycle, Bus, or Car'
->>> formatted_join_disjunction(['Motorcycle', 'Bus', 'Car', language='de'])
+>>> formatted_join_disjunction(['Motorcycle', 'Bus', 'Car'], language='de')
 'Motorcycle, Bus oder Car'
 ```
 
