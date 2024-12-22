@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
+from dataclasses import dataclass
 
 
 def _join_two_items(
@@ -91,23 +92,57 @@ def formatted_join(
   )
 
 
-def formatted_join_conjunction(items: Sequence[str]) -> str:
-  """Joins items with 'and'-based conjunction."""
+@dataclass
+class LocalizedConfig:
+  separator: str
+  final_separator_and: str
+  final_separator_or: str
+  use_penultimate_separator: bool
+
+
+_LOCALIZED_CONFIG_BY_LANGUAGE = {
+  'en': LocalizedConfig(
+    separator=', ',
+    final_separator_and=' and ',
+    final_separator_or=' or ',
+    use_penultimate_separator=True,
+  ),
+  'de': LocalizedConfig(
+    separator=', ',
+    final_separator_and=' und ',
+    final_separator_or=' oder ',
+    use_penultimate_separator=False,
+  ),
+}
+
+
+def formatted_join_conjunction(
+  items: Sequence[str], language: str = 'en'
+) -> str:
+  """Joins items with 'and'-based conjunction considering the language."""
+  config = _LOCALIZED_CONFIG_BY_LANGUAGE.get(
+    language, _LOCALIZED_CONFIG_BY_LANGUAGE['en']
+  )
   return formatted_join(
     items,
-    separator=', ',
-    final_separator=' and ',
-    use_penultimate_separator=len(items) > 2,
+    separator=config.separator,
+    final_separator=config.final_separator_and,
+    use_penultimate_separator=config.use_penultimate_separator,
   )
 
 
-def formatted_join_disjunction(items: Sequence[str]) -> str:
-  """Joins items with 'or'-based disjunction formatting."""
+def formatted_join_disjunction(
+  items: Sequence[str], language: str = 'en'
+) -> str:
+  """Joins items with 'or'-based disjunction considering the language."""
+  config = _LOCALIZED_CONFIG_BY_LANGUAGE.get(
+    language, _LOCALIZED_CONFIG_BY_LANGUAGE['en']
+  )
   return formatted_join(
     items,
-    separator=', ',
-    final_separator=' or ',
-    use_penultimate_separator=len(items) > 2,
+    separator=config.separator,
+    final_separator=config.final_separator_or,
+    use_penultimate_separator=config.use_penultimate_separator,
   )
 
 

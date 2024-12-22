@@ -52,26 +52,34 @@ Joins items with flexible separator configuraton.
 
 ---
 
-#### `formatted_join_conjunction(items: Sequence[str]) -> str`
-Convenience function that joins items using a comma and “and” before the last item.
+#### `formatted_join_conjunction(items: Sequence[str], language: str = 'en') -> str`
+Joins items using a comma and localized* “and” before the last item.
 ```py
 >>> from formatted_join import formatted_join_conjunction
 >>> formatted_join_conjunction(['Spring', 'Summer'])
 'Spring and Summer'
 >>> formatted_join_conjunction(['One', 'Two', 'Three'])
 'One, Two, and Three'
+>>> formatted_join_conjunction(['Motorcycle', 'Bus', 'Car', language='en'])
+'Motorcycle, Bus, and Car'
+>>> formatted_join_conjunction(['Motorcycle', 'Bus', 'Car', language='de'])
+'Motorcycle, Bus und Car'
 ```
 
 ---
 
-#### `formatted_join_disjunction(items: Sequence[str]) -> str`
-Convenience function that joins items using a comma and “or” before the last item.
+#### `formatted_join_disjunction(items: Sequence[str], language: str = 'en') -> str`
+Joins items using a comma and localized* “or” before the last item.
 ```py
 >>> from formatted_join import formatted_join_disjunction
 >>> formatted_join_disjunction(['Monday', 'Tuesday'])
 'Monday or Tuesday'
 >>> formatted_join_disjunction(['X', 'Y', 'Z'])
 'X, Y, or Z'
+>>> formatted_join_disjunction(['Motorcycle', 'Bus', 'Car', language='en'])
+'Motorcycle, Bus, or Car'
+>>> formatted_join_disjunction(['Motorcycle', 'Bus', 'Car', language='de'])
+'Motorcycle, Bus oder Car'
 ```
 
 ---
@@ -100,6 +108,15 @@ Joins items with a single space separating each.
 'Line1 - Line2'
 ```
 
+---- 
+
+#### * Supported languages for `formatted_join_[conjunction|disjunction]`:
+
+| language | and | or   | separator | has penultimate separator |
+| -------- | --- | ---- | --------- | ------------------------- |
+| en       | and | or   | `', '`    | yes                       |
+| de       | und | oder | `', '`    | no                        |
+
 ### Development
 - Install Dependencies:
   - `uv sync && uv pip install -r pyproject.toml --extra dev`
@@ -108,4 +125,4 @@ Joins items with a single space separating each.
 - Run type checking:
   - `uv run mypy .`
 - Run unit tests:
-  - `uv run formatted_join.py`
+  - `uv run formatted_join_test.py`

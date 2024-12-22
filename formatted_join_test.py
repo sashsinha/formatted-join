@@ -67,23 +67,66 @@ class TestFormattedJoin(unittest.TestCase):
     self.assertEqual(result_two_items, ' and ')
 
 
-class TestConjunctionDisjunction(unittest.TestCase):
-  def test_conjunction_three_items(self) -> None:
+class TestConjunction(unittest.TestCase):
+  def test_conjunction_three_items_en(self) -> None:
     self.assertEqual(
-      formatted_join_conjunction(['One', 'Two', 'Three']), 'One, Two, and Three'
+      formatted_join_conjunction(['One', 'Two', 'Three'], language='en'),
+      'One, Two, and Three',
     )
 
-  def test_conjunction_two_items(self) -> None:
+  def test_conjunction_two_items_en(self) -> None:
     self.assertEqual(
-      formatted_join_conjunction(['Spring', 'Summer']), 'Spring and Summer'
+      formatted_join_conjunction(['Spring', 'Summer'], language='en'),
+      'Spring and Summer',
     )
 
-  def test_disjunction_three_items(self) -> None:
-    self.assertEqual(formatted_join_disjunction(['X', 'Y', 'Z']), 'X, Y, or Z')
-
-  def test_disjunction_two_items(self) -> None:
+  def test_conjunction_three_items_de(self) -> None:
     self.assertEqual(
-      formatted_join_disjunction(['Monday', 'Tuesday']), 'Monday or Tuesday'
+      formatted_join_conjunction(['Eins', 'Zwei', 'Drei'], language='de'),
+      'Eins, Zwei und Drei',
+    )
+
+  def test_conjunction_two_items_de(self) -> None:
+    self.assertEqual(
+      formatted_join_conjunction(['Frühling', 'Sommer'], language='de'),
+      'Frühling und Sommer',
+    )
+
+  def test_conjunction_fallback_language(self) -> None:
+    self.assertEqual(
+      formatted_join_conjunction(['One', 'Two', 'Three'], language='fr'),
+      'One, Two, and Three',  # Defaults to 'en'
+    )
+
+
+class TestDisjunction(unittest.TestCase):
+  def test_disjunction_three_items_en(self) -> None:
+    self.assertEqual(
+      formatted_join_disjunction(['X', 'Y', 'Z'], language='en'), 'X, Y, or Z'
+    )
+
+  def test_disjunction_two_items_en(self) -> None:
+    self.assertEqual(
+      formatted_join_disjunction(['Monday', 'Tuesday'], language='en'),
+      'Monday or Tuesday',
+    )
+
+  def test_disjunction_three_items_de(self) -> None:
+    self.assertEqual(
+      formatted_join_disjunction(['Eins', 'Zwei', 'Drei'], language='de'),
+      'Eins, Zwei oder Drei',
+    )
+
+  def test_disjunction_two_items_de(self) -> None:
+    self.assertEqual(
+      formatted_join_disjunction(['Montag', 'Dienstag'], language='de'),
+      'Montag oder Dienstag',
+    )
+
+  def test_disjunction_fallback_language(self) -> None:
+    self.assertEqual(
+      formatted_join_disjunction(['X', 'Y', 'Z'], language='fr'),
+      'X, Y, or Z',  # Defaults to 'en'
     )
 
 
